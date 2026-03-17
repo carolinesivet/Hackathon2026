@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BACKEND = 'https://aqar-014n.onrender.com'
+const BACKEND = 'https://naac-navigator.onrender.com'
 
 const api = axios.create({ baseURL: `${BACKEND}/api` })
 
