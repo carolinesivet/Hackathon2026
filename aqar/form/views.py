@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import *
@@ -316,7 +316,7 @@ class SubmitView(APIView):
         })
 class ReportDownloadView(APIView):
     """Download the generated PDF or Excel report for a department."""
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, dept_id, fmt):
         import os
