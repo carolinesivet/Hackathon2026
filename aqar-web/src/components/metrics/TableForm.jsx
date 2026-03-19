@@ -1,9 +1,14 @@
+// src/components/metrics/TableForm.jsx
+// InfoPopover is built inline here — no external FieldInfoModal import needed.
+
 import { useState, useRef, useEffect } from 'react'
 import { useResponses } from '../../context/ResponseContext'
 import { getFieldInfo } from '../../utils/naacFieldInfo'
+import { YEARS } from '../../utils/naacData'
 import FileUpload from './FileUpload'
 import { Button } from '../ui'
 
+// ── InfoPopover ───────────────────────────────────────────────────────────────
 function InfoPopover({ metricId, col, color }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
@@ -76,6 +81,7 @@ function InfoPopover({ metricId, col, color }) {
   )
 }
 
+// ── Validation ────────────────────────────────────────────────────────────────
 function validateRows(rows, columns) {
   const required = columns.filter(c => c.required)
   if (!required.length) return []
@@ -90,6 +96,7 @@ function validateRows(rows, columns) {
   return errors
 }
 
+// ── Cell ──────────────────────────────────────────────────────────────────────
 function Cell({ col, value, onChange, color, readOnly, hasError }) {
   const isRequired = col.required === true
   const base = {
@@ -111,6 +118,16 @@ function Cell({ col, value, onChange, color, readOnly, hasError }) {
     e.target.style.background  = err ? '#1a0000' : '#060d18'
   }
   const placeholder = readOnly ? '' : isRequired ? `${col.label} *` : col.label
+
+  // Academic year picker — select from YEARS list
+  if (col.type === 'year') return (
+    <select value={value || ''} onChange={e => !readOnly && onChange(e.target.value)}
+      disabled={readOnly} style={{ ...base, cursor: readOnly ? 'default' : 'pointer' }}
+      onFocus={onFocus} onBlur={onBlur}>
+      <option value="">{isRequired ? '— select year * —' : '— select year —'}</option>
+      {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+    </select>
+  )
 
   if (col.type === 'select') return (
     <select value={value || ''} onChange={e => !readOnly && onChange(e.target.value)}
@@ -138,6 +155,7 @@ function Cell({ col, value, onChange, color, readOnly, hasError }) {
   )
 }
 
+// ── TableForm ─────────────────────────────────────────────────────────────────
 export default function TableForm({ metric, response, onChange, onSave, color, readOnly = false }) {
   const { uploadFile, removeDocument } = useResponses()
   const [expandedRow,      setExpandedRow]      = useState(null)
@@ -203,6 +221,7 @@ export default function TableForm({ metric, response, onChange, onSave, color, r
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
+      {/* Status bar */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
         <span style={{
           fontFamily: 'monospace', fontSize: 11,
@@ -220,6 +239,7 @@ export default function TableForm({ metric, response, onChange, onSave, color, r
         )}
       </div>
 
+      {/* Validation error summary */}
       {showValidation && validationErrors.length > 0 && (
         <div style={{ background: '#1a0000', border: '1px solid #991b1b', borderRadius: 10, padding: '12px 16px' }}>
           <div style={{ fontSize: 13, color: '#fca5a5', fontWeight: 700, marginBottom: 8, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -234,6 +254,7 @@ export default function TableForm({ metric, response, onChange, onSave, color, r
         </div>
       )}
 
+      {/* Table */}
       {rows.length > 0 && (
         <div style={{ overflowX: 'auto', borderRadius: 10, border: '1px solid #1e293b' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 500 }}>
@@ -321,6 +342,7 @@ export default function TableForm({ metric, response, onChange, onSave, color, r
         </div>
       )}
 
+      {/* Empty state */}
       {rows.length === 0 && (
         <div style={{ border: '2px dashed #1e293b', borderRadius: 10, padding: '32px 20px', textAlign: 'center', color: '#334155', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
           <div style={{ fontSize: 28, marginBottom: 8 }}>📋</div>
@@ -329,6 +351,7 @@ export default function TableForm({ metric, response, onChange, onSave, color, r
         </div>
       )}
 
+      {/* Add Row */}
       {!readOnly && (
         <button onClick={addRow} style={{
           background: `${color}15`, border: `1.5px dashed ${color}50`, color,
@@ -342,8 +365,6 @@ export default function TableForm({ metric, response, onChange, onSave, color, r
         </button>
       )}
 
-      {/* File upload */}
-     
       {/* Save button */}
       {!readOnly && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -360,6 +381,7 @@ export default function TableForm({ metric, response, onChange, onSave, color, r
         </div>
       )}
 
+      {/* Read-only docs */}
       {readOnly && (response.documents || []).length > 0 && (
         <div>
           <div style={{ fontSize: 11, color: '#475569', marginBottom: 8, fontFamily: 'monospace', letterSpacing: 1 }}>UPLOADED DOCUMENTS</div>
