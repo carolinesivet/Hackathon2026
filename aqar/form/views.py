@@ -1,3 +1,5 @@
+from rest_framework_simplejwt.tokens import AccessToken
+from django.contrib.auth.models import User
 from django.http import HttpResponse, FileResponse
 from .report_generator import generate_excel, generate_pdf
 import os, uuid
@@ -321,51 +323,81 @@ class SubmitView(APIView):
         })
 class ReportDownloadView(APIView):
     """Download the generated PDF or Excel report for a department."""
-    permission_classes = [IsAuthenticated]
-
+    permission_classes = []
     def get(self, request, dept_id, fmt):
         import os
         from django.http import FileResponse, HttpResponse
         from django.conf import settings
-
-        if is_admin(request.user):
+ 
+        user = self._get_user(request)
+        if user is None:
+            return Response({'error': 'Authentication required.'}, status=401)
+ 
+        if hasattr(user, 'profile') and user.profile.role == 'admin':
             dept = get_object_or_404(Department, pk=dept_id)
         else:
-            dept = get_hod_department(request.user)
+            dept = get_hod_department(user)
             if not dept or dept.id != int(dept_id):
                 return Response({'error': 'Forbidden'}, status=403)
-
+ 
         try:
             sub = dept.submission
         except SubmissionStatus.DoesNotExist:
             return Response({'error': 'No report available — data not submitted yet.'}, status=404)
-
+ 
         if fmt == 'excel':
-            path_field = sub.report_excel
+            path_field   = sub.report_excel
             content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            ext = 'xlsx'
+            ext          = 'xlsx'
         elif fmt == 'pdf':
-            path_field = sub.report_pdf
+            path_field   = sub.report_pdf
             content_type = 'application/pdf'
-            ext = 'pdf'
+            ext          = 'pdf'
         else:
             return Response({'error': 'Invalid format. Use excel or pdf.'}, status=400)
-
+ 
         if not path_field:
-            return Response({'error': f'No {fmt} report available.'}, status=404)
-
+            return Response({'error': f'No {fmt} report on record. Re-submit to regenerate.'}, status=404)
+ 
         full_path = os.path.join(settings.MEDIA_ROOT, str(path_field))
         if not os.path.exists(full_path):
-            return Response({'error': 'Report file not found on server.'}, status=404)
-
+            return Response({'error': 'Report file not found on server. Re-submit to regenerate.'}, status=404)
+ 
         dept_name = dept.name.replace(' ', '_')
-        filename  = f"AQAR_{dept_name}_{sub.submitted_at.strftime('%Y%m%d')}.{ext}"
-
-        with open(full_path, 'rb') as f:
-            response = HttpResponse(f.read(), content_type=content_type)
-            response['Content-Disposition'] = f'attachment; filename="{filename}"'
-            return response
-
+        date_str  = sub.submitted_at.strftime('%Y%m%d') if sub.submitted_at else 'report'
+        filename  = f"AQAR_{dept_name}_{date_str}.{ext}"
+ 
+        response = FileResponse(
+            open(full_path, 'rb'),
+            content_type=content_type,
+            as_attachment=True,
+            filename=filename,
+        )
+        response['Access-Control-Allow-Origin']  = '*'
+        response['Access-Control-Allow-Headers'] = 'Authorization'
+        return response
+ 
+    def _get_user(self, request):
+        """Try header first, then ?token= query param."""
+        from rest_framework_simplejwt.authentication import JWTAuthentication
+        jwt_auth = JWTAuthentication()
+        try:
+            result = jwt_auth.authenticate(request)
+            if result is not None:
+                return result[0]
+        except Exception:
+            pass
+ 
+        token_str = request.query_params.get('token')
+        if token_str:
+            try:
+                token = AccessToken(token_str)
+                user  = User.objects.get(id=token['user_id'])
+                return user
+            except Exception:
+                pass
+ 
+        return None
 class SubmissionStatusView(APIView):
     permission_classes = [IsAuthenticated]
 
