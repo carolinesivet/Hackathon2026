@@ -368,3 +368,28 @@ class Metric_6_5_3_Serializer(serializers.ModelSerializer):
         model  = Metric_6_5_3
         fields = ['id', 'year', 'conferences_seminars', 'aaa_followup', 'nirf_participation',
                   'iso_certification', 'nba_certification', 'collaborative_quality', 'orientation_program']
+
+class Metric_7_1_1_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model  = Metric_7_1_1
+        exclude = ['department']
+ 
+class Metric_7_1_3_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model  = Metric_7_1_3
+        exclude = ['department']
+ 
+class Metric_7_1_4_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model  = Metric_7_1_4
+        exclude = ['department']
+ 
+class Metric_7_1_5_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model  = Metric_7_1_5
+        exclude = ['department']
+ 
+class Metric_7_1_11_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model  = Metric_7_1_11
+        exclude = ['department']

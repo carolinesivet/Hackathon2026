@@ -85,6 +85,11 @@ METRIC_REGISTRY = {
     '6.3.4': (Metric_6_3_4,             Metric_6_3_4_Serializer),
     '6.4.2': (Metric_6_4_2,             Metric_6_4_2_Serializer),
     '6.5.3': (Metric_6_5_3,             Metric_6_5_3_Serializer),
+    '7.1.1':  (Metric_7_1_1,  Metric_7_1_1_Serializer),
+    '7.1.3':  (Metric_7_1_3,  Metric_7_1_3_Serializer),
+    '7.1.4':  (Metric_7_1_4,  Metric_7_1_4_Serializer),
+    '7.1.5':  (Metric_7_1_5,  Metric_7_1_5_Serializer),
+    '7.1.11': (Metric_7_1_11, Metric_7_1_11_Serializer),
 }
 
 
@@ -889,3 +894,28 @@ class Metric_6_5_3_View(MetricView):
     model = Metric_6_5_3; serializer = Metric_6_5_3_Serializer
 class Metric_6_5_3_DetailView(MetricDetailView):
     model = Metric_6_5_3; serializer = Metric_6_5_3_Serializer
+class Metric_7_1_1_View(MetricView):
+    model = Metric_7_1_1; serializer = Metric_7_1_1_Serializer
+class Metric_7_1_1_DetailView(MetricDetailView):
+    model = Metric_7_1_1; serializer = Metric_7_1_1_Serializer
+ 
+class Metric_7_1_3_View(MetricView):
+    model = Metric_7_1_3; serializer = Metric_7_1_3_Serializer
+class Metric_7_1_3_DetailView(MetricDetailView):
+    model = Metric_7_1_3; serializer = Metric_7_1_3_Serializer
+ 
+class Metric_7_1_4_View(MetricView):
+    model = Metric_7_1_4; serializer = Metric_7_1_4_Serializer
+class Metric_7_1_4_DetailView(MetricDetailView):
+    model = Metric_7_1_4; serializer = Metric_7_1_4_Serializer
+ 
+class Metric_7_1_5_View(MetricView):
+    model = Metric_7_1_5; serializer = Metric_7_1_5_Serializer
+class Metric_7_1_5_DetailView(MetricDetailView):
+    model = Metric_7_1_5; serializer = Metric_7_1_5_Serializer
+ 
+class Metric_7_1_11_View(MetricView):
+    model = Metric_7_1_11; serializer = Metric_7_1_11_Serializer
+class Metric_7_1_11_DetailView(MetricDetailView):
+    model = Metric_7_1_11; serializer = Metric_7_1_11_Serializer
+ 

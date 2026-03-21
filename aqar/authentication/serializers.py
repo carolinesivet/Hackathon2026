@@ -5,7 +5,7 @@ from .models import UserProfile
 
 class UserSerializer(serializers.ModelSerializer):
     role          = serializers.SerializerMethodField()
-    department_id = serializers.SerializerMethodField()
+    department_id = serializers.IntegerField(source='profile.department.id', default=None)
     department    = serializers.SerializerMethodField()
     stream        = serializers.SerializerMethodField()
 

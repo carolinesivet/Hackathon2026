@@ -619,3 +619,63 @@ class Metric_6_5_3(MetricBase):
 
     def __str__(self):
         return f"{self.department} | 6.5.3 | {self.year}"
+
+class Metric_7_1_1(MetricBase):
+    """7.1.1"""
+    title               = models.CharField(max_length=500)
+    period_from         = models.DateField(null=True, blank=True)
+    period_to           = models.DateField(null=True, blank=True)
+    participants_male   = models.PositiveIntegerField(default=0)
+    participants_female = models.PositiveIntegerField(default=0)
+    participants_total  = models.PositiveIntegerField(default=0)
+ 
+    def __str__(self):
+        return f"{self.department} | {self.title}"
+ 
+ 
+class Metric_7_1_3(MetricBase):
+    """7.1.3"""
+    facility      = models.CharField(max_length=300)
+    available     = models.CharField(max_length=3)
+    beneficiaries = models.PositiveIntegerField(default=0)
+ 
+    def __str__(self):
+        return f"{self.department} | {self.facility}"
+ 
+ 
+class Metric_7_1_4(MetricBase):
+    """7.1.4"""
+    year                   = models.CharField(max_length=10)
+    locational_initiatives = models.PositiveIntegerField(default=0)
+    community_initiatives  = models.PositiveIntegerField(default=0)
+    date                   = models.DateField(null=True, blank=True)
+    duration               = models.CharField(max_length=200, blank=True)
+    initiative_name        = models.CharField(max_length=500)
+    issues_addressed       = models.TextField(blank=True)
+    participants_count     = models.PositiveIntegerField(default=0)
+ 
+    def __str__(self):
+        return f"{self.department} | {self.initiative_name}"
+ 
+ 
+class Metric_7_1_5(MetricBase):
+    """7.1.5"""
+    title               = models.CharField(max_length=500)
+    date_of_publication = models.DateField(null=True, blank=True)
+    followup            = models.TextField(blank=True)
+ 
+    def __str__(self):
+        return f"{self.department} | {self.title}"
+ 
+ 
+class Metric_7_1_11(MetricBase):
+    """7.1.11"""
+    activity            = models.CharField(max_length=500)
+    duration_from       = models.DateField(null=True, blank=True)
+    duration_to         = models.DateField(null=True, blank=True)
+    participants_male   = models.PositiveIntegerField(default=0)
+    participants_female = models.PositiveIntegerField(default=0)
+    participants_total  = models.PositiveIntegerField(default=0)
+ 
+    def __str__(self):
+        return f"{self.department} | {self.activity}"

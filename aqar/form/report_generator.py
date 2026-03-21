@@ -103,6 +103,16 @@ METRIC_META = {
                    ['Year','Agency/Individual','Purpose','Amount (Lakhs)']),
     '6.5.3':      ('Metric_6_5_3',             ['year','conferences_seminars','nirf_participation','iso_certification','nba_certification'],
                    ['Year','Conferences/Seminars','NIRF Participation','ISO Certification','NBA Certification']),
+    '7.1.1':  ('Metric_7_1_1',  ['title','period_from','period_to','participants_male','participants_female','participants_total'],
+             ['Title of Programme','Period From','Period To','Male','Female','Total']),
+  '7.1.3':  ('Metric_7_1_3',  ['facility','available','beneficiaries'],
+             ['Facility','Available','Beneficiaries']),
+  '7.1.4':  ('Metric_7_1_4',  ['year','locational_initiatives','community_initiatives','date','duration','initiative_name','issues_addressed','participants_count'],
+             ['Year','Locational Initiatives','Community Initiatives','Date','Duration','Initiative Name','Issues Addressed','Participants']),
+  '7.1.5':  ('Metric_7_1_5',  ['title','date_of_publication','followup'],
+             ['Title','Date of Publication','Follow-up']),
+  '7.1.11': ('Metric_7_1_11', ['activity','duration_from','duration_to','participants_male','participants_female','participants_total'],
+             ['Activity','Duration From','Duration To','Male','Female','Total']),
 }
 
 CRITERIA_ORDER = [
@@ -112,6 +122,7 @@ CRITERIA_ORDER = [
     ('Criterion IV',  'Infrastructure & Learning Resources', ['4.1.3','4.1.4','4.2.2']),
     ('Criterion V',   'Student Support & Progression',       ['5.1.1','5.1.3','5.1.4','5.2.1','5.2.2','5.2.3','5.3.1','5.3.3']),
     ('Criterion VI',  'Governance, Leadership & Management', ['6.2.3','6.3.2','6.3.3','6.3.4','6.4.2','6.5.3']),
+    ('Criterion VII', 'Institutional Values & Social Responsibilities',['7.1.1','7.1.3','7.1.4','7.1.5','7.1.11']),
 ]
 
 
