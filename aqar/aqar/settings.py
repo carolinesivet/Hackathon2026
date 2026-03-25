@@ -92,5 +92,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-AI_SERVICE_URL = 'http://localhost:3700'
+AI_SERVICE_URL = 'https://hackathon2026-o1pa.onrender.com'
 AI_TIMEOUT     = 120
