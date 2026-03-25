@@ -10,7 +10,7 @@ api.interceptors.request.use(config => {
   return config
 })
 
-const slug = (metricId) => metricId.replace(/\./g, '-')
+const slug = (metricId) => metricId.replace(/\./g, '-').replace(/[\s,]+/g, '_').trim()
 
 export const fetchAllResponses  = ()           => api.get('/form/responses/').then(r => r.data)
 export const saveMetricRows     = (id, rows)   => api.post(`/form/${slug(id)}/`, { rows }).then(r => r.data)
