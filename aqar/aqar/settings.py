@@ -91,3 +91,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+AI_SERVICE_URL = 'http://localhost:3700'
+AI_TIMEOUT     = 120

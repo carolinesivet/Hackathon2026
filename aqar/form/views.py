@@ -2,6 +2,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth.models import User
 from django.http import HttpResponse, FileResponse
 from .report_generator import generate_excel, generate_pdf
+from .report_generator_ai import generate_pdf_with_ai
 import os, uuid
 from django.conf import settings
 from django.utils import timezone
@@ -11,7 +12,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser
-
+from .ai_service import clear_dept_cache
 from .models import *
 from .serializers import *
 from authentication.models import UserProfile
@@ -297,7 +298,8 @@ class SubmitView(APIView):
         os.makedirs(report_dir, exist_ok=True)
 
         excel_bytes = generate_excel(dept, college_name, aqar_year)
-        pdf_bytes   = generate_pdf(dept, college_name, aqar_year)
+        # pdf_bytes   = generate_pdf(dept, college_name, aqar_year)
+        pdf_bytes = generate_pdf_with_ai(dept, college_name, aqar_year)
 
         excel_filename = f"{base_name}.xlsx"
         pdf_filename   = f"{base_name}.pdf"
@@ -602,6 +604,7 @@ class AdminMetricSaveView(AdminOnly):
             return Response({'error': 'Unknown metric'}, status=404)
         Model, Ser = METRIC_REGISTRY[metric_id]
         rows = request.data.get('rows', [])
+        # clear_dept_cache(dept.id)
         Model.objects.filter(department=dept).delete()
         created, errors = [], []
         for i, row in enumerate(rows):
