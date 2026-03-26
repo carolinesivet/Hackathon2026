@@ -6,7 +6,7 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-AI_SERVICE_URL = os.environ.get('AI_SERVICE_URL', 'http://localhost:3700')
+AI_SERVICE_URL = os.environ.get('https://hackathon2026-o1pa.onrender.com')
 AI_TIMEOUT     = int(os.environ.get('AI_TIMEOUT', 120))
 
 
