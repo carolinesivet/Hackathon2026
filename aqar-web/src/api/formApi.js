@@ -9,13 +9,16 @@ api.interceptors.request.use(config => {
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
-
-const slug = (metricId) =>
-  metricId
-    .replace(/\./g, '-')
-    .replace(/[\s,]+/g, '_')
-    .replace(/_+/g, '_')
-    .replace(/^_|_$/g, '') 
+const METRIC_ALIASES = {
+  '1.2.2 , 1.2.3': '1-2-2',
+  '1.2.3':          '1-2-2',
+  '2.4.2':          '2-4-2',
+  '3.4.3':          '3-4-3',
+}
+const slug = (metricId) => {
+  if (METRIC_ALIASES[metricId]) return METRIC_ALIASES[metricId]
+  return metricId.replace(/\./g, '-')
+}
 export const fetchAllResponses  = ()           => api.get('/form/responses/').then(r => r.data)
 export const saveMetricRows     = (id, rows)   => api.post(`/form/${slug(id)}/`, { rows }).then(r => r.data)
 export const addMetricRow       = (id, data)   => api.post(`/form/${slug(id)}/`, data).then(r => r.data)
