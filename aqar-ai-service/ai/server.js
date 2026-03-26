@@ -5,7 +5,7 @@ import express, { json } from 'express'
 import { generateParagraph, generateAllParagraphs, clearCache } from './generator.js'
 
 const app  = express()
-const PORT = process.env.AI_PORT || 3700
+const PORT = 3700
 
 app.use(json({ limit: '5mb' }))
 
@@ -44,7 +44,7 @@ app.post("/api/generate/all", async (req, res) => {
         }
       });
     }
-    const result = await generateAll(metricsData);
+    const result = await generateAllParagraphs(metricsData);
     if (!result || typeof result !== "object") {
       return res.json({});
     }
