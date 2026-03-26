@@ -11,7 +11,7 @@ SECRET_KEY = 'django-insecure-%9+kxxzyf*kph!g%r4hbh-gje0y6*-6kt(2xq@vus5d*@y5c8u
 
 DEBUG = True
 
-ALLOWED_HOSTS = [".onrender.com", "https://naac-navigator.onrender.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [".onrender.com", "https://naac-navigator.onrender.com","naac-navigator.onrender.com", "localhost", "127.0.0.1"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -79,8 +79,15 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
-
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'authorization',
+    'content-type',
+    'user-agent',
+    'x-csrftoken',
+]
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
