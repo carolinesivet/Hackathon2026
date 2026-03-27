@@ -12,7 +12,9 @@ app.use(json({ limit: '5mb' }))
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', model: process.env.LLM_MODEL || 'mistral', port: PORT })
 })
-
+app.get('/ping',(req,res)=>{
+  res.status(200).send("ok")
+})
 app.post('/api/generate/metric', async (req, res) => {
   const { metricId, rows, deptId, departmentName, collegeName, aqarYear } = req.body
 
