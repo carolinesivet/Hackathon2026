@@ -305,7 +305,7 @@ def generate_pdf(dept, college_name='', aqar_year=''):
     stream_lbl = 'Aided' if dept.stream == 'aided' else 'Self Finance'
     hod_name   = str(dept.hod) if hasattr(dept, 'hod') and dept.hod else '\u2014'
     info_rows  = [
-        ('Name of the Institution',  college_name or '\u2014'),
+        ('Name of the Institution',  college_name or 'SIVET College'),
         ('Department',               dept.name),
         ('Stream',                   stream_lbl),
         ('Head of Department (HOD)', hod_name),
