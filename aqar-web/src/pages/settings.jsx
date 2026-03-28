@@ -54,7 +54,7 @@ export default function Settings({ onToast }) {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div>
+          {/* <div>
             <label style={labelStyle}>College / Institution Name</label>
             <input
               value={name} onChange={e => setName(e.target.value)}
@@ -63,7 +63,7 @@ export default function Settings({ onToast }) {
               onFocus={e => e.target.style.borderColor = '#6366f1'}
               onBlur={e => e.target.style.borderColor = '#1e293b'}
             />
-          </div>
+          </div> */}
 
           <div>
             <label style={labelStyle}>AQAR Year</label>
